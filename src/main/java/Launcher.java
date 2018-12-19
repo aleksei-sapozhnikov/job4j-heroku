@@ -1,5 +1,3 @@
-package com.zetcode.embedded;
-
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.startup.Tomcat;
 
@@ -18,8 +16,10 @@ public class Launcher {
         Tomcat tomcat = new Tomcat();
         tomcat.setPort(Integer.valueOf(webPort));
 
+        String index = "src/main/webapp";
         String json = "json/webapp";
 
+        tomcat.addWebapp("/", new File(index).getAbsolutePath());
         tomcat.addWebapp("/json", new File(json).getAbsolutePath());
 
         tomcat.start();

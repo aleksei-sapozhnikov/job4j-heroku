@@ -26,6 +26,9 @@ out
 *.tar.gz
 *.rar
 
+# Tomcat embedded dir
+tomcat*
+
 # web-app meta files
 *.MF
 
