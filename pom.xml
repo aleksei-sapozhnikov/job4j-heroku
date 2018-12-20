@@ -85,6 +85,21 @@
             <version>1.2</version>
         </dependency>
 
+
+        <!-- Connection pool -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-dbcp2</artifactId>
+            <version>2.4.0</version>
+        </dependency>
+
+        <!-- Postgresql -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.2.5.jre7</version>
+        </dependency>
+
     </dependencies>
 
     <build>

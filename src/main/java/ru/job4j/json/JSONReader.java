@@ -2,11 +2,15 @@ package ru.job4j.json;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
 
 /**
  * Reads JSON object coming in http request and adds object to store.
@@ -17,18 +21,32 @@ import java.io.IOException;
  */
 public class JSONReader extends HttpServlet {
     /**
-     * Storage of users.
+     * UserStorage of users.
      */
-    private final Storage<Human> storage = new Storage<>();
+    private UserStorage userStorage;
     /**
      * JSON mapper to convert objects to json and vice versa.
      */
     private final ObjectMapper mapper = new ObjectMapper();
 
+    @Override
+    public void init() {
+        ServletContext context = this.getServletContext();
+        SingleHolder holder = (SingleHolder) context.getAttribute("singleHolder");
+        this.userStorage = holder.getUserStorage();
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        List<User> users = this.userStorage.getAll();
+        String result = this.mapper.writeValueAsString(users);
+        this.writeResultToResponse(resp, result);
+    }
+
     /**
      * Handles "POST" htt requests.
      * <p>
-     * Processes JSON string, forms object and stores it into the storage.
+     * Processes JSON string, forms object and stores it into the userStorage.
      *
      * @param req  Http request.
      * @param resp Http response.
@@ -37,8 +55,8 @@ public class JSONReader extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         final String json = this.readerToString(req.getReader());
-        Human human = this.mapper.readValue(json, Human.class);
-        this.storage.add(human);
+        User user = this.mapper.readValue(json, User.class);
+        this.userStorage.add(user);
     }
 
     /**
@@ -57,6 +75,19 @@ public class JSONReader extends HttpServlet {
             }
         }
         return result.toString();
+    }
+
+    /**
+     * Writes servlet method result to response.
+     *
+     * @param resp   Response object.
+     * @param result Result to write.
+     */
+    private void writeResultToResponse(HttpServletResponse resp, String result) throws IOException {
+        try (PrintWriter writer = resp.getWriter()) {
+            writer.write(result);
+            writer.flush();
+        }
     }
 
 }

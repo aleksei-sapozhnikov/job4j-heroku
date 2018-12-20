@@ -26,14 +26,14 @@
             var description = $('#description').val();
             var result = false;
             if (validate(firstName, secondName, sex, description)) {
-                var human = makeHumanObject(firstName, secondName, sex, description);
-                ajaxSend(human);
+                var user = makeHumanObject(firstName, secondName, sex, description);
+                ajaxSend(user);
             }
             return result;
         }
 
         /**
-         * Returns human object as json string.
+         * Returns user object as json string.
          */
         function makeHumanObject(firstName, secondName, sex, description) {
             return {
@@ -45,15 +45,15 @@
         }
 
         /**
-         * Makes ajax request with given human string.
+         * Makes ajax request with given user string.
          */
-        function ajaxSend(human) {
+        function ajaxSend(user) {
             $.ajax({
                 type: "POST",
                 url: context + "/json",
                 dataType: "json",
-                data: JSON.stringify(human),
-                success: addRow(human)
+                data: JSON.stringify(user),
+                success: addRow(user)
             });
         }
 
@@ -90,13 +90,13 @@
          * Adds row to table.
          * @returns {boolean} always false.
          */
-        function addRow(human) {
+        function addRow(user) {
             $('#user_table').find('tr:last').after(
                 '<tr>' +
-                '<td>' + human.firstName + '</td>' +
-                '<td>' + human.secondName + '</td>' +
-                '<td>' + human.sex + '</td>' +
-                '<td>' + human.description + '</td>' +
+                '<td>' + user.firstName + '</td>' +
+                '<td>' + user.secondName + '</td>' +
+                '<td>' + user.sex + '</td>' +
+                '<td>' + user.description + '</td>' +
                 '</tr>'
             );
             return false;

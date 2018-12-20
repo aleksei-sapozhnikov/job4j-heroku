@@ -1,21 +1,28 @@
 package ru.job4j.json;
 
 /**
- * Enum for human sex.
- */
-enum Sex {
-    MALE,
-    FEMALE
-}
-
-/**
  * Object to store and pass as JSON object.
  *
  * @author Aleksei Sapozhnikov (vermucht@gmail.com)
  * @version 0.1
  * @since 0.1
  */
-public class Human {
+public class User {
+    /**
+     * Enum for human sex.
+     */
+    public enum Sex {
+        MALE,
+        FEMALE
+    }
+
+    public User(String firstName, String secondName, Sex sex, String description) {
+        this.firstName = firstName;
+        this.secondName = secondName;
+        this.sex = sex;
+        this.description = description;
+    }
+
     /**
      * First name.
      */

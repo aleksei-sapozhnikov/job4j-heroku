@@ -15,4 +15,13 @@
         <url-pattern>/json</url-pattern>
     </servlet-mapping>
 
+    <listener>
+        <listener-class>ru.job4j.json.ServletContextListener</listener-class>
+    </listener>
+
+    <context-param>
+        <param-name>properties</param-name>
+        <param-value>ru/job4j/json/database.properties</param-value>
+    </context-param>
+
 </web-app>
